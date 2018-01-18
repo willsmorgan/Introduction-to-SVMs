@@ -5,7 +5,7 @@ decisionplot <- function(model, data, class = NULL, predict_type = "class",
   data <- data[,1:2]
   k <- length(unique(cl))
   
-  plot(data, col = as.integer(cl)+1L, pch = as.integer(cl)+1L, ...)
+  plot(data, col = as.integer(cl)+1L, pch = 16, ...)
   
   # make grid
   r <- sapply(data, range, na.rm = TRUE)

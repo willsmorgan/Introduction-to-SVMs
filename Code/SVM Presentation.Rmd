@@ -22,9 +22,8 @@ source("decision_plot function.R")
 - Purpose and Intuition
 - Separating Hyperplanes and the Maximal Margin Classifier
 - Support Vector Classifiers
-- Support Vector Machines
-- SVMs with K > 2 Classes
-- Example
+- Support Vector Machines with 2 classes
+
 
 ## Purpose and Intuition
 
@@ -212,7 +211,7 @@ dat <- tibble(
 )
 
 # Add a little of separability between the classes
-dat$x1[dat$y == "A"] <-  dat$x1[dat$y == "A"] + 5
+dat$x1[dat$y == "A"] <-  dat$x1[dat$y == "A"] + 4
 ```
 
 ## Support Vector Classifiers - Example
@@ -238,6 +237,7 @@ summary(svc)
 ```{r Plot SVC, echo = F}
 plot(svc, dat)
 ```
+
 
 ## Support Vector Classifiers - Tuning
 - How do we decide on a value for our cost parameter $C$?
@@ -383,44 +383,73 @@ to a training observation
 
 - $[3]$ is the _hyperbolic tangent_ function
 
-## Support Vector Machines - Example
+## Support Vector Machines - Example {.centered}
 
-- We will use the `Iris` data set to test out a couple SVM models:
-```{r Iris, echo = F}
-data <-  iris %>%
-  filter(Species != "setosa") %>%
-  mutate(Species = if_else(Species == "virginica", "A", "B"),
-         Species = as.factor(Species)) %>%
-  select(Sepal.Length, Sepal.Width, Species)           # 2 predictors, 2 classes
+- We use an artificial data set made to work well with a polynomial kernel
 
-ggplot(data, aes(Sepal.Length, Sepal.Width, col = Species)) + 
-  geom_point()
+```{r Poly kern data, echo=F, warning=FALSE}
+poly_dt <-  tibble(
+  x1 = runif(250, min = -4, max = 4),
+  x2 = runif(250, min = -4, max = 4),
+  y = factor(if_else(x2 < x1^3 + x1^2, 1, 0))
+)
+
+cubic <-  function(x) x^3 + x^2
+
+ggplot(poly_dt, aes(x1, x2, col = y)) + geom_point() + stat_function(fun = cubic) + ylim(-10, 10)
 ```
 
 ## Support Vector Machines - Example
-- Build an SVM with a polynomial kernel of degree 3
+- SVM with a polynomial kernel of degree 3
 
 ```{r SVM Poly 3}
-svm_d3 <-  svm(Species ~ ., data = data, kernel = "polynomial",
-               degree = 3, cost = 10)
-
+svm_poly <-  svm(y ~., data = poly_dt, kernel = "polynomial")
 ```
 
 ## Support Vector Machines - Example
 ```{r SVM Poly 3 graph, echo = F}
-decisionplot(svm_d3, data, main = "Degree 3 Polynomial SVM")
+plot(svm_poly, poly_dt)
 ```
 
 ## Support Vector Machines - Example
-- Now build an SVM with a radial kernel
-    - We use the default gamma value for now, so we exclude it from the function
-    
+- New data to predict:
+
+```{r Rad example, echo = F, warnings = F}
+rad_dt <-  tibble(
+  x1 = runif(250, min = 0, max = 4),
+  x2 = runif(250, min = 0, max = 4),
+  y = factor(if_else((x1-2)^2 + (x2-2)^2 > 1, 1, 0))
+)
+ggplot(rad_dt, aes(x1, x2, col = y)) + geom_point()
+```
+
+## Support Vector Machines - Example
+- SVM with radial kernel
 ```{r SVM Radial}
-svm_rad <-  svm(Species ~ ., data = data, kernel = "radial",
+svm_rad <-  svm(y ~ ., data = rad_dt, kernel = "radial",
                 cost = 10)
 ```
 
 ## Support Vector Machines - Example
 ```{r SVM Rad Graph, echo = F}
-decisionplot(svm_rad, data, main = "Radial Kernel SVM")
+plot(svm_rad, rad_dt)
 ```
+
+## Support Vector Machines - Tuning
+- These non-linear kernel functions have new parameters that you have to choose yourself
+    - Let CV do it for you!
+    
+```{r kernel CV, eval = F}
+tune(svm, y ~ ., data = train, kernel = 'radial',
+                ranges = list(cost = c(.1, 1, 10, 100, 1000),
+                              gamma = c(.5, 1, 2, 3, 4)))
+```
+
+## Support Vector Machines - Evaluating
+- Basic Workflow:
+    - Define training and testing sets
+    - Decide on a model (predictors, kernel, classes)
+    - Use cross-validation to find hyperparameters with best training results (optional)
+    - Evaluate best model using test set (ROC Curves, Classification Error, etc.)
+    
+    
