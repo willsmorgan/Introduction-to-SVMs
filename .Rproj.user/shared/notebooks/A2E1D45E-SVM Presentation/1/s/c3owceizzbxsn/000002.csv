@@ -1,2 +1,0 @@
-"0","svm_rad <-  svm(y ~ ., data = rad_dt, kernel = ""radial"","
-"0","                cost = 10)"

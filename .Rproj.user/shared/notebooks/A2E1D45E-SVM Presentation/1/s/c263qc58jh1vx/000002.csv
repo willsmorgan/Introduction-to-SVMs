@@ -1,2 +1,0 @@
-"0","svm_d3 <-  svm(y ~ ., data = dat, kernel = ""polynomial"","
-"0","               degree = 3, cost = 10)"

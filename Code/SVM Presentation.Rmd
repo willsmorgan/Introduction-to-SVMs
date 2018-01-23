@@ -3,7 +3,8 @@ title: "Introduction to Support Vector Machines"
 author: "William Morgan"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  beamer_presentation: default
+  beamer_presentation: 
+    latex_engine: xelatex
   ioslides_presentation: default
 ---
 
@@ -45,7 +46,9 @@ of two classes
     - A __hyperplane__ $H$ is then defined as the set:
     
 \[
-H = \{x \in \mathbb{R}^n \mid \beta \cdot x = a\}
+\begin{eqnarray}
+H = \{x \in \mathbb{R}^n \mid \beta \cdot x = a\}\\
+\end{eqnarray}
 \]
 
 
@@ -53,7 +56,9 @@ H = \{x \in \mathbb{R}^n \mid \beta \cdot x = a\}
 - A hyperplane in $\mathbb{R}^2$ can be described with the following equation:
 
 \[
-\beta_0 + \beta_1X_1 + \beta_2X_2 = 0
+\begin{eqnarray}
+\beta_0 + \beta_1X_1 + \beta_2X_2 = 0\\
+\end{eqnarray}
 \]
 
 - We say that two sets $D$ and $E$ in $\mathbb{R}^2$ are __separated__ by the hyperplane
