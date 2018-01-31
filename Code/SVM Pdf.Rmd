@@ -3,7 +3,7 @@ title: "Introduction to Support Vector Machines"
 author: "William Morgan"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  ioslides_presentation: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -311,11 +311,6 @@ $$
 
 Groups __A__ and __B__ can't be separated with one boundary, but what if put this
 line into a 2-dimensional space?
-
-## Non-linear Boundaries - Example {.centered}
-```{r, out.height="400px", echo = F}
-knitr::include_graphics("External graphics/1D-2D transformation.gif")
-```
 
 ## Non-linear Boundaries - Computation
 
