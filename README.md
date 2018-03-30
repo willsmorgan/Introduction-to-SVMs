@@ -17,7 +17,7 @@ Some relevant topics that might be included in future updates to this repository
 * SVM Regression
 * SVM Classification with K > 2 classes
 
-I want to thank [Christopher Olah](http://colah.github.io/) for a couple of visualizations I took from his [Neural Networks, Manifolds, and Topology](http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/) blog post that really help with visualizing separation in larger feature spaces and Michael Hahsler for his [decision boundary plotting function in R](http://michael.hahsler.net/SMU/EMIS7332/R/viz_classifier.html). Any other resources I used are included in the citations.
+Many thanks to [Christopher Olah](http://colah.github.io/) for a couple of visualizations I took from his [Neural Networks, Manifolds, and Topology](http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/) blog post that really help with visualizing separation in larger feature spaces and Michael Hahsler for his [decision boundary plotting function in R](http://michael.hahsler.net/SMU/EMIS7332/R/viz_classifier.html). Any other resources I used are included in the citations.
 
 Citations:
 

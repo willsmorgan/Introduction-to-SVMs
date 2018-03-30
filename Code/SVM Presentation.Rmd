@@ -3,7 +3,7 @@ title: "Introduction to Support Vector Machines"
 author: "William Morgan"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  ioslides_presentation: default
+  beamer_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -43,32 +43,24 @@ of two classes
     - Let $\mathbb{\beta} \ne 0$ be a vector in $\mathbb{R}^n$ and let $a \in \mathbb{R}$
     - A __hyperplane__ $H$ is then defined as the set:
     
-$$
-H = \{x \in \mathbb{R}^n \mid \beta \cdot x = a\}
-$$
+$$ H = \{x \in \mathbb{R}^n \mid \beta \cdot x = a\} $$
 
 
 ## Hyperplanes - Definition
 - A hyperplane in $\mathbb{R}^2$ can be described with the following equation:
 
-$$
-\beta_0 + \beta_1X_1 + \beta_2X_2 = 0
-$$
+$$ \beta_0 + \beta_1X_1 + \beta_2X_2 = 0 $$
 
 - We say that two sets $D$ and $E$ in $\mathbb{R}^2$ are __separated__ by the hyperplane
 $H$ if we have
 
-$$
-\beta_0 + \beta_1X_1 + \beta_2X_2 \geq 0 ~~ \forall ~~ d \in D\\
-\beta_0 + \beta_1X_1 + \beta_2X_2 \leq 0 ~~ \forall ~~ e \in E\\
-$$
+$$ \beta_0 + \beta_1X_1 + \beta_2X_2 \geq 0 , \forall ~~ d \in D $$
+$$ \beta_0 + \beta_1X_1 + \beta_2X_2 \leq 0 , \forall ~~ e \in E $$
 
 ## Hyperplanes - Separation
-$$
-\beta_0 + \beta_1X_1 + \beta_2X_2 < 0 ~~~~ [1]\\
-\beta_0 + \beta_1X_1 + \beta_2X_2 = 0 ~~~~ [2]\\
-\beta_0 + \beta_1X_1 + \beta_2X_2 > 0 ~~~~ [3]\\
-$$
+$$ \beta_0 + \beta_1X_1 + \beta_2X_2 < 0 ~~~~ [1] $$
+$$ \beta_0 + \beta_1X_1 + \beta_2X_2 = 0 ~~~~ [2] $$
+$$\beta_0 + \beta_1X_1 + \beta_2X_2 > 0 ~~~~ [3]  $$
 
 - When we have an observation $x = (x_1, x_2)$ that satisfies the first or third
 equation, we can get an idea of what side of the hyperplane it lies on 
@@ -95,6 +87,7 @@ ggplot(df) +
   geom_line(aes(x1, x2)) + 
   geom_point(aes(x3, x4, col = y)) + 
   theme(legend.position = "none")
+
 ```
 
 ## The Maximal Margin Classifier
@@ -143,9 +136,7 @@ lie on the correct side of a separating hyperplane
 - $y_i \in \{-1,1\}$ classes
 - Our hyperplane will be defined as:
 
-$$
-\beta_0 + \beta_1X_1 + ... + \beta_pX_p = 0
-$$
+$$ \beta_0 + \beta_1X_1 + ... + \beta_pX_p = 0$$
 
 
 
@@ -237,9 +228,10 @@ plot(svc, dat)
 using 10-fold cross-validation
 
 ```{r SVC with CV}
-svc_cv <-  tune(svm,y ~., data = dat, kernel = 'linear',
-                ranges = list(
-                  cost = c(.001, .01, .1, 1, 5, 10, 100)))
+svc_cv <-  tune(svm,y ~.,
+                data = dat,
+                kernel = 'linear',
+                ranges = list(cost = c(.001, .01, .1, 1, 5, 10, 100)))
 ```
 
 ## Support Vector Classifiers - Tuning {.smaller}
@@ -247,7 +239,6 @@ svc_cv <-  tune(svm,y ~., data = dat, kernel = 'linear',
 
 ```{r SVC CV best model}
 best_model <-  svc_cv$best.model
-best_model
 ```
 
 ## Support Vector Classifiers - Prediction {.smaller}
@@ -306,20 +297,9 @@ X_1,X_2,...,X_p, X^2_1,X^2_2,...,X^2_p
 \end{aligned}
 $$  
 
-## Non-linear Boundaries - Example {.centered}
-![](External graphics/1D separation.png)
-
-Groups __A__ and __B__ can't be separated with one boundary, but what if put this
-line into a 2-dimensional space?
-
-## Non-linear Boundaries - Example {.centered}
-```{r, out.height="400px", echo = F}
-knitr::include_graphics("External graphics/1D-2D transformation.gif")
-```
-
 ## Non-linear Boundaries - Computation
 
-- The optimization problem described earlier is computed using the _inner products_ 
+- The optimization problem described earlier is solved using the _inner products_ 
 of the support vectors
     - _inner products_ can be thought as a measure of similarity between two observations
     - The inner product between two points $x_1, x_2$ is denoted $\langle x_1, x_2 \rangle$
@@ -354,11 +334,9 @@ with a non-linear kernel
 
 - There are 3 very popular kernels:
 
-$$
-K(x_1,x_2) = (1 + \sum_{j=1}^px_{1j}x_{2j})^d ~~~ [1]\\
-K(x_1, x_2) = exp(-\gamma\sum_{j=1}^p(x_{1j} - x_{2j})^2) ~~~ [2]\\
-K(x_1, x_2) = tanh(\gamma\sum_{j=1}^px_{1j}x_{2j} + \delta) ~~~ [3]\\
-$$
+$$ K(x_1,x_2) = (1 + \sum_{j=1}^px_{1j}x_{2j})^d ~~~ [1] $$
+$$ K(x_1, x_2) = exp(-\gamma\sum_{j=1}^p(x_{1j} - x_{2j})^2) ~~~ [2] $$
+$$K(x_1, x_2) = tanh(\gamma\sum_{j=1}^px_{1j}x_{2j} + \delta) ~~~ [3] $$
 
 ## Support Vector Machines - Kernels
 
@@ -389,7 +367,9 @@ ggplot(poly_dt, aes(x1, x2, col = y)) + geom_point() + stat_function(fun = cubic
 - SVM with a polynomial kernel of degree 3
 
 ```{r SVM Poly 3}
-svm_poly <-  svm(y ~., data = poly_dt, kernel = "polynomial")
+svm_poly <-  svm(y ~.,
+                 data = poly_dt,
+                 kernel = "polynomial")
 ```
 
 ## Support Vector Machines - Example
@@ -412,7 +392,9 @@ ggplot(rad_dt, aes(x1, x2, col = y)) + geom_point()
 ## Support Vector Machines - Example
 - SVM with radial kernel
 ```{r SVM Radial}
-svm_rad <-  svm(y ~ ., data = rad_dt, kernel = "radial",
+svm_rad <-  svm(y ~ .,
+                data = rad_dt,
+                kernel = "radial",
                 cost = 10)
 ```
 
@@ -426,9 +408,11 @@ plot(svm_rad, rad_dt)
     - Let CV do it for you!
     
 ```{r kernel CV, eval = F}
-tune(svm, y ~ ., data = train, kernel = 'radial',
-                ranges = list(cost = c(.1, 1, 10, 100, 1000),
-                              gamma = c(.5, 1, 2, 3, 4)))
+tune(svm, y ~ .,
+     data = train,
+     kernel = 'radial',
+     ranges = list(cost = c(.1, 1, 10, 100, 1000),
+                   gamma = c(.5, 1, 2, 3, 4)))
 ```
 
 ## Support Vector Machines - Evaluating
